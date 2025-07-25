@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stars Senci FF - Gerador de Sensibilidade</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+<style>
+  /* Reset e base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 0;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Poppins', sans-serif;
+    color: #f1f5f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  /* Título animado */
+  h1 {
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 8px;
+    color: #3b82f6;
+    text-shadow: 0 0 12px #3b82f6;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 12px #3b82f6; }
+    50% { text-shadow: 0 0 24px #60a5fa; }
+  }
+  /* Subtítulo */
+  p.subtitle {
+    font-weight: 300;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #94a3b8;
+  }
+  /* Container */
+  .container {
+    background: #1e293b;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+    width: 380px;
+    max-width: 90vw;
+  }
+  label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 15px;
+    display: block;
+  }
+  select, input {
+    margin-top: 8px;
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: #334155;
+    color: #f1f5f9;
+    transition: box-shadow 0.3s ease;
+  }
+  select:focus, input:focus {
+    box-shadow: 0 0 10px #3b82f6;
+  }
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.7);
+    transition: background 0.3s ease;
+    animation: button-glow 3s ease-in-out infinite;
+  }
+  button:hover {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+  }
+  @keyframes button-glow {
+    0%, 100% { box-shadow: 0 5px 15px rgba(59, 130, 246, 0.7); }
+    50% { box-shadow: 0 10px 25px rgba(96, 165, 250, 0.9); }
+  }
+  /* Resultado */
+  #resultado {
+    margin-top: 35px;
+    background: #334155;
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px #2563eb;
+  }
+  #resultado h2 {
+    text-align: center;
+    font-weight: 700;
+    color: #60a5fa;
+    margin-bottom: 15px;
+  }
+  #resultado p {
+    font-size: 1rem;
+    margin: 6px 0;
+  }
+  /* Créditos animados no rodapé */
+  footer {
+    margin-top: auto;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    width: 100%;
+    text-align: center;
+    user-select: none;
+    animation: credits-move 10s linear infinite;
+  }
+  @keyframes credits-move {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+  <h1>Stars Senci FF</h1>
+  <p class="subtitle">Seu gerador profissional de sensibilidade para Free Fire</p>
+
+  <div class="container">
+    <label for="plataforma">Escolha a plataforma</label>
+    <select id="plataforma" onchange="atualizarMarcas()">
+      <option value="">Selecione</option>
+      <option value="android">Android</option>
+      <option value="iphone">iPhone</option>
+      <option value="pc">PC</option>
+    </select>
+
+    <label for="marca">Escolha a marca</label>
+    <select id="marca" onchange="atualizarModelos()" disabled>
+      <option value="">Selecione</option>
+    </select>
+
+    <label for="modelo">Escolha o modelo</label>
+    <select id="modelo" disabled>
+      <option value="">Selecione</option>
+    </select>
+
+    <label for="dpi">Digite sua DPI (100 a 1000)</label>
+    <input type="number" id="dpi" min="100" max="1000" placeholder="Ex: 480" />
+
+    <label for="estilo">Estilo de Sensibilidade</label>
+    <select id="estilo">
+      <option value="alta">Alta</option>
+      <option value="baixa">Baixa</option>
+    </select>
+
+    <button onclick="gerarSensibilidade()">Gerar Sensibilidade</button>
+
+    <div id="resultado" style="display:none;">
+      <h2>Sensibilidade Gerada</h2>
+      <div id="valores"></div>
+    </div>
+  </div>
+
+  <footer>
+    Desenvolvido por Mateus (Edenn) • Stars Senci FF © 2025
+  </footer>
+
+<script>
+  const marcasPorPlataforma = {
+    android: ['Samsung', 'Xiaomi', 'Motorola'],
+    iphone: ['Apple'],
+    pc: ['Windows', 'Mac']
+  };
+
+  const modelosPorMarca = {
+    Samsung: ['Galaxy S10', 'Galaxy S20', 'Galaxy S21', 'Galaxy S22', 'Galaxy S23', 'Galaxy S24'],
+    Xiaomi: ['Redmi Note 10', 'Redmi Note 11', 'Redmi Note 12', 'Poco X3', 'Poco X5', 'Mi 11', 'Mi 12'],
+    Motorola: ['Moto G7', 'Moto G8', 'Moto G9', 'Moto G10', 'Moto G20', 'Edge 20', 'Edge 30'],
+    Apple: ['iPhone 7', 'iPhone 8', 'iPhone X', 'iPhone XR', 'iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 15 Pro Max'],
+    Windows: ['PC Fraco', 'PC Médio', 'PC Gamer'],
+    Mac: ['MacBook Air', 'MacBook Pro']
+  };
+
+  function atualizarMarcas() {
+    const plataforma = document.getElementById('plataforma').value;
+    const marcaSelect = document.getElementById('marca');
+    const modeloSelect = document.getElementById('modelo');
+
+    marcaSelect.innerHTML = '<option value=\"\">Selecione</option>';
+    modeloSelect.innerHTML = '<option value=\"\">Selecione</option>';
+    modeloSelect.disabled = true;
+
+    if (!plataforma) {
+      marcaSelect.disabled = true;
+      return;
+    }
+
+    marcasPorPlataforma[plataforma].forEach(marca => {
+      const opt = document.createElement('option');
+      opt.value = marca;
+      opt.innerText = marca;
+      marcaSelect.appendChild(opt);
+    });
+
+    marcaSelect.disabled = false;
+  }
+
+  function atualizarModelos() {
+    const marca = document.getElementById('marca').value;
+    const modeloSelect = document.getElementById('modelo');
+    modeloSelect.innerHTML = '<option value=\"\">Selecione</option>';
+
+    if (!marca) {
+      modeloSelect.disabled = true;
+      return;
+    }
+
+    modelosPorMarca[marca].forEach(modelo => {
+      const opt = document.createElement('option');
+      opt.value = modelo;
+      opt.innerText = modelo;
+      modeloSelect.appendChild(opt);
+    });
+
+    modeloSelect.disabled = false;
+  }
+
+  function gerarNumero(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function gerarSensibilidade() {
+    const plataforma = document.getElementById('plataforma').value;
+    const marca = document.getElementById('marca').value;
+    const modelo = document.getElementById('modelo').value;
+    const dpi = parseInt(document.getElementById('dpi').value);
+    const estilo = document.getElementById('estilo').value;
+    const resultadoDiv = document.getElementById('resultado');
+    const valoresDiv = document.getElementById('valores');
+
+    if (!plataforma) {
+      alert('Selecione a plataforma!');
+      return;
+    }
+    if (!marca) {
+      alert('Selecione a marca!');
+      return;
+    }
+    if (!modelo) {
+      alert('Selecione o modelo!');
+      return;
+    }
+    if (!dpi || dpi < 100 || dpi > 1000) {
+      alert('Informe uma DPI válida entre 100 e 1000!');
+      return;
+    }
+
+    // Sensibilidade base realista por estilo
+    let minBase, maxBase;
+    if (estilo === 'alta') {
+      minBase = 170;
+      maxBase = 200;
+    } else {
+      minBase = 100;
+      maxBase = 150;
+    }
+
+    const geral = gerarNumero(minBase, maxBase);
+    const mira = gerarNumero(minBase, maxBase);
+    const redDot = gerarNumero(minBase, maxBase);
+    const doisX = gerarNumero(minBase, maxBase);
+    const quatroX = gerarNumero(minBase, maxBase);
+    const awm = gerarNumero(minBase, maxBase);
+
+    valoresDiv.innerHTML = `
+      <p><strong>Plataforma:</strong> ${plataforma.charAt(0).toUpperCase() + plataforma.slice(1)}</p>
+      <p><strong>Dispositivo:</strong> ${marca} - ${modelo}</p>
+      <p><strong>DPI:</strong> ${dpi}</p>
+      <p><strong>Sensibilidade Geral:</strong> ${geral}</p>
+      <p><strong>Mira:</strong> ${mira}</p>
+      <p><strong>Ponto Vermelho:</strong> ${redDot}</p>
+      <p><strong>2x:</strong> ${doisX}</p>
+      <p><strong>4x:</strong> ${quatroX}</p>
+      <p><strong>AWM:</strong> ${awm}</p>
+    `;
+    resultadoDiv.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
+

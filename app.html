@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Stars Senci FF - App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#00d4ff"/>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Stars Senci FF</h1>
+      <button id="toggleTheme" title="Alternar tema">🌗</button>
+      <p class="subtitle">Seletor avançado de sensibilidade por modelo</p>
+    </header>
+
+    <form id="sensiForm">
+      <label>Dispositivo</label>
+      <select id="deviceSelect" required>
+        <optgroup label="iPhone">
+          <option value="iphone7">iPhone 7</option>
+          <option value="iphone8">iPhone 8</option>
+          <option value="iphoneX">iPhone X</option>
+          <option value="iphoneXR">iPhone XR</option>
+          <option value="iphone11">iPhone 11</option>
+          <option value="iphone12">iPhone 12</option>
+          <option value="iphone13">iPhone 13</option>
+          <option value="iphone14">iPhone 14</option>
+          <option value="iphone15">iPhone 15</option>
+          <option value="iphone15pro">iPhone 15 Pro/Max</option>
+        </optgroup>
+        <optgroup label="Samsung Galaxy">
+          <option value="samsungs9">Galaxy S9</option>
+          <option value="samsungs10">Galaxy S10</option>
+          <option value="samsungS20">Galaxy S20</option>
+          <option value="samsungS21">Galaxy S21</option>
+          <option value="samsungS22">Galaxy S22</option>
+          <option value="samsungS23">Galaxy S23/S24</option>
+          <option value="galaxya51">Galaxy A51</option>
+          <option value="galaxya52">Galaxy A52</option>
+          <option value="galaxym31">Galaxy M31</option>
+        </optgroup>
+        <optgroup label="Xiaomi">
+          <option value="xiaomi9">Xiaomi 9 (Mi 9)</option>
+          <option value="xiaomi10">Xiaomi 10</option>
+          <option value="xiaomi10pro">Xiaomi 10 Pro</option>
+          <option value="xiaomi11">Xiaomi 11</option>
+          <option value="xiaomi11pro">Xiaomi 11 Pro</option>
+          <option value="xiaomi12">Xiaomi 12</option>
+          <option value="xiaomi12pro">Xiaomi 12 Pro</option>
+          <option value="redminote10">Redmi Note 10</option>
+        </optgroup>
+        <optgroup label="Motorola">
+          <option value="motoG8">Moto G8</option>
+          <option value="motoG9">Moto G9</option>
+          <option value="motoG100">Moto G100</option>
+          <option value="motoEdge20">Motorola Edge 20</option>
+          <option value="motoG200">Moto G200</option>
+        </optgroup>
+        <optgroup label="PC / Mouse">
+          <option value="pc">PC (Mouse)</option>
+        </optgroup>
+        <optgroup label="Outro">
+          <option value="outro">Outro</option>
+        </optgroup>
+      </select>
+
+      <label>DPI (100‑1000)</label>
+      <input type="number" id="dpiInput" min="100" max="1000" value="600" required/>
+
+      <label>Estilo de sensibilidade</label>
+      <select id="styleSelect" required>
+        <option value="alta">Alta (rápida)</option>
+        <option value="baixa">Baixa (precisa)</option>
+      </select>
+
+      <button type="submit" id="generateBtn">Gerar Sensibilidade</button>
+    </form>
+
+    <section id="resultSection" style="display:none;">
+      <h2>Resultado</h2>
+      <pre id="resultText"></pre>
+      <div class="result-buttons">
+        <button id="copyBtn">📋 Copiar</button>
+        <button id="whatsappBtn">📲 WhatsApp</button>
+        <button id="resetBtn">🔄 Novo</button>
+      </div>
+    </section>
+
+    <section id="historySection">
+      <h3>Histórico (últimas 5)</h3>
+      <ul id="historyList"></ul>
+    </section>
+
+    <footer>Desenvolvido por Mateus (Edenn) • Suporte WhatsApp <a href="https://wa.me/5511943311527" style="color:#0ff;">11 94331‑1527</a></footer>
+  </div>
+
+  <a href="https://wa.me/5511943311527" class="whatsapp-float">📲</a>
+  <script src="script.js"></script>
+</body>
+</html>
